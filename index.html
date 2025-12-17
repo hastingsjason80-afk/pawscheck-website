@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawsCheck - The Ambulance in Your Pocket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        teal: { 600: '#0d9488', 700: '#0f766e' },
+                        coral: { 500: '#FF6B6B', 600: '#E05555' },
+                        slate: { 900: '#0f172a', 50: '#f8fafc' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <nav class="w-full py-6 px-6 flex justify-between items-center max-w-6xl mx-auto">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-teal-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+            </div>
+            <span class="text-xl font-bold tracking-tight">PawsCheck</span>
+        </div>
+        <a href="mailto:support@pawscheckapp.com" class="text-sm font-medium text-slate-600 hover:text-teal-600">Contact Support</a>
+    </nav>
+
+    <header class="max-w-4xl mx-auto text-center mt-16 px-6">
+        <span class="bg-teal-100 text-teal-700 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide uppercase">Coming Soon to iOS & Android</span>
+        <h1 class="text-5xl md:text-6xl font-extrabold mt-6 leading-tight text-slate-900">
+            Don't Guess.<br> <span class="text-teal-600">Just Check.</span>
+        </h1>
+        <p class="text-lg text-slate-600 mt-6 max-w-2xl mx-auto leading-relaxed">
+            The intelligent veterinary triage assistant. Instant symptom checks, wellness advice, and peace of mind for dog and cat owners.
+        </p>
+
+        <div class="flex justify-center gap-4 mt-10">
+            <button class="bg-slate-900 text-white px-6 py-3 rounded-xl font-medium flex items-center gap-3 hover:bg-slate-800 transition shadow-lg">
+                <span></span> Download on App Store
+            </button>
+            <button class="bg-slate-900 text-white px-6 py-3 rounded-xl font-medium flex items-center gap-3 hover:bg-slate-800 transition shadow-lg">
+                <span>▶</span> Get it on Google Play
+            </button>
+        </div>
+    </header>
+
+    <section class="max-w-6xl mx-auto mt-24 px-6 grid md:grid-cols-3 gap-8 mb-24">
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+            <div class="w-12 h-12 bg-coral-500 rounded-2xl flex items-center justify-center text-white mb-6 text-2xl">⚡</div>
+            <h3 class="text-xl font-bold mb-3">Instant Triage</h3>
+            <p class="text-slate-500">Know exactly when to rush to the ER and when to monitor at home based on veterinarian-reviewed protocols.</p>
+        </div>
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+            <div class="w-12 h-12 bg-teal-600 rounded-2xl flex items-center justify-center text-white mb-6 text-2xl">📋</div>
+            <h3 class="text-xl font-bold mb-3">Vet Clipboard</h3>
+            <p class="text-slate-500">Generate professional medical summaries of your pet's symptoms to share instantly with your doctor.</p>
+        </div>
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+            <div class="w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center text-white mb-6 text-2xl">🔒</div>
+            <h3 class="text-xl font-bold mb-3">Local-First Privacy</h3>
+            <p class="text-slate-500">Your pet's medical data stays on your device. We prioritize your privacy and security above all else.</p>
+        </div>
+    </section>
+
+    <footer class="border-t border-slate-200 bg-white py-12 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h4 class="font-bold text-slate-900">PawsCheck</h4>
+            <p class="text-slate-500 text-sm mt-2">© 2025 PawsCheck App. All rights reserved.</p>
+            
+            <div class="mt-8 flex justify-center gap-8 text-sm text-slate-500">
+                <a href="#privacy" class="hover:text-teal-600 underline">Privacy Policy</a>
+                <a href="mailto:support@pawscheckapp.com" class="hover:text-teal-600 underline">Support</a>
+            </div>
+
+            <div id="privacy" class="mt-16 text-left max-w-2xl mx-auto bg-slate-50 p-8 rounded-xl border border-slate-100">
+                <h5 class="font-bold text-slate-900 mb-4">Privacy Policy</h5>
+                <p class="text-xs text-slate-500 leading-relaxed space-y-2">
+                    <strong>1. Overview:</strong> PawsCheck is a veterinary reference tool. We do not sell personal data. Pet profiles are stored locally on your device.<br><br>
+                    <strong>2. AI Processing:</strong> Anonymized symptom descriptions are sent to Google Gemini for analysis but are not used for model training.<br><br>
+                    <strong>3. Disclaimer:</strong> PawsCheck is not a substitute for professional veterinary advice. Always consult a vet for medical emergencies.<br><br>
+                    <strong>Contact:</strong> support@pawscheckapp.com
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
