@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>PawsCheck — Don’t Guess. Just Check.</title>
   <meta name="description" content="Pet wellness + symptom triage in seconds. Answer a few questions and get a clear next step: monitor at home, see a vet soon, or urgent care." />
   <meta name="theme-color" content="#18b6ac" />
@@ -37,7 +37,13 @@
       overflow-x:hidden;
     }
     a{color:inherit; text-decoration:none}
-    .wrap{max-width:1120px;margin:0 auto;padding:28px 18px 80px}
+    .wrap{
+      max-width:1120px;
+      margin:0 auto;
+      padding:28px 18px 80px;
+      padding-left: max(18px, env(safe-area-inset-left));
+      padding-right:max(18px, env(safe-area-inset-right));
+    }
     .glass{
       background:var(--card);
       border:1px solid var(--line);
@@ -53,14 +59,15 @@
       position:sticky;top:10px;z-index:10;
     }
 
-    /* ✅ BIGGER BRAND AREA */
+    /* Brand */
     .brand{
       display:flex;align-items:center;gap:12px;
-      min-width: 320px;         /* was small; gives it room */
+      min-width: 320px;
+      flex:1 1 auto;
     }
     .brandMark{
       display:flex;align-items:center;justify-content:center;
-      width:54px;height:54px;   /* makes the logo feel “logo-y” */
+      width:54px;height:54px;
       border-radius:16px;
       background:rgba(24,182,172,.10);
       border:1px solid rgba(24,182,172,.18);
@@ -68,22 +75,18 @@
       flex:0 0 auto;
     }
     .brandMark img{
-      width:38px;height:38px;   /* icon within the badge */
+      width:38px;height:38px;
       object-fit:contain;
       display:block;
     }
-
-    /* If you have a wordmark image (logo-text.png), we’ll show it.
-       If not, it will fall back to a text wordmark. */
     .wordmarkWrap{display:flex;flex-direction:column;gap:2px}
-    .wordmarkImg{
-      height:22px; width:auto; display:block;
-    }
+    .wordmarkImg{height:22px;width:auto;display:block}
     .wordmarkText{
       font-weight:1000;
       letter-spacing:-.03em;
       font-size:20px;
       line-height:1.05;
+      display:none;
     }
     .tagline{
       font-size:12px;
@@ -103,12 +106,34 @@
       align-self:flex-start;
     }
 
-    .navlinks{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    /* Hamburger (mobile) */
+    .menuBtn{
+      display:none;
+      width:44px;height:44px;
+      border-radius:14px;
+      border:1px solid rgba(15,23,42,.10);
+      background:rgba(255,255,255,.65);
+      align-items:center;justify-content:center;
+      gap:5px;
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+    .menuBtn span{
+      display:block;
+      width:18px;height:2px;
+      background:rgba(15,23,42,.75);
+      border-radius:999px;
+    }
+
+    .navlinks{
+      display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;
+    }
     .navlinks a{
       font-size:14px;font-weight:900;color:rgba(15,23,42,.78);
-      padding:8px 10px;border-radius:12px;
+      padding:10px 12px;border-radius:12px;
     }
     .navlinks a:hover{background:rgba(15,23,42,.05)}
+
     .cta{
       display:inline-flex;align-items:center;justify-content:center;gap:10px;
       padding:10px 14px;border-radius:14px;font-weight:950;
@@ -199,13 +224,15 @@
     }
     .shot img{
       width:100%;
-      height: 460px;
-      object-fit: contain;
+      aspect-ratio: 9 / 19.5;
+      height:auto;
+      object-fit:contain;
       display:block;
       border-radius:16px;
       border:1px solid rgba(15,23,42,.08);
       box-shadow:0 12px 30px rgba(2,6,23,.10);
       background:white;
+      max-height:560px;
     }
     .shotCap{font-weight:950;letter-spacing:-.01em;color:rgba(15,23,42,.78);font-size:14px}
 
@@ -232,27 +259,56 @@
     .footLinks a{color:rgba(15,23,42,.65);font-weight:900}
     .footLinks a:hover{text-decoration:underline}
 
-    /* Responsive */
+    /* ========= RESPONSIVE ========= */
+
     @media (max-width: 980px){
       .heroGrid{grid-template-columns:1fr}
       h1{font-size:46px}
       .steps{grid-template-columns:1fr}
-      .previewGrid{grid-template-columns:1fr 1fr}
       .faqGrid{grid-template-columns:1fr}
       .brand{min-width:auto}
     }
-    @media (max-width: 640px){
-      .top{position:static}
-      .navlinks{justify-content:flex-start}
-      .brandMark{width:48px;height:48px}
-      .brandMark img{width:34px;height:34px}
+
+    /* Mobile/tablet: hamburger menu + swipeable preview row */
+    @media (max-width: 860px){
+      .top{ position:static; flex-wrap:wrap; gap:10px; padding:12px 12px; }
+      .hero{ padding:16px; }
+      h1{ font-size:40px; }
+      .sub{ font-size:16px; }
+
+      .menuBtn{ display:inline-flex; }
+
+      .navlinks{
+        display:none;
+        width:100%;
+        margin-top:10px;
+        padding-top:10px;
+        border-top:1px solid rgba(15,23,42,.08);
+        justify-content:flex-start;
+      }
+      .navlinks.open{ display:flex; }
+
+      .previewGrid{
+        display:flex;
+        gap:12px;
+        overflow-x:auto;
+        padding-bottom:10px;
+        scroll-snap-type:x mandatory;
+        -webkit-overflow-scrolling:touch;
+      }
+      .shot{
+        min-width: 78%;
+        scroll-snap-align:start;
+      }
     }
+
     @media (max-width: 520px){
-      h1{font-size:40px}
-      .previewGrid{grid-template-columns:1fr}
-      .shot img{height: 520px}
-      .wordmarkText{font-size:18px}
+      h1{font-size:36px}
       .tagline{display:none}
+      .cta{width:100%}
+      .heroActions{width:100%}
+      .miniRow .mini{width:100%;justify-content:flex-start}
+      .shot{ min-width: 88%; }
     }
   </style>
 </head>
@@ -261,24 +317,26 @@
   <div class="wrap">
 
     <div class="top glass">
-      <!-- ✅ Updated brand block -->
       <div class="brand">
         <div class="brandMark">
-          <!-- Use your icon file here -->
           <img src="/assets/logo.png" alt="PawsCheck logo icon" />
         </div>
 
         <div class="wordmarkWrap">
-          <!-- Optional wordmark image if you have it -->
-          <img class="wordmarkImg" src="/assets/logo-text.png" alt="PawsCheck" onerror="this.style.display='none'; document.getElementById('fallbackWordmark').style.display='block';" />
-          <div id="fallbackWordmark" class="wordmarkText" style="display:none;">PawsCheck</div>
+          <img class="wordmarkImg" src="/assets/logo-text.png" alt="PawsCheck"
+               onerror="this.style.display='none'; document.getElementById('fallbackWordmark').style.display='block';" />
+          <div id="fallbackWordmark" class="wordmarkText">PawsCheck</div>
           <div class="tagline">Don’t Guess. Just Check.</div>
         </div>
 
         <span class="pill">Early Access Beta</span>
       </div>
 
-      <div class="navlinks">
+      <button class="menuBtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="navlinks" id="navlinks">
         <a href="#how">How it works</a>
         <a href="#preview">Preview</a>
         <a href="#faq">FAQ</a>
@@ -359,7 +417,7 @@
     <section id="preview" class="glass">
       <div class="secHead">
         <h2>A quick look inside the app</h2>
-        <p>Designed to feel calm and intuitive—so you can think clearly when you’re worried.</p>
+        <p>Swipe on mobile to preview the screens.</p>
       </div>
 
       <div class="previewGrid">
@@ -369,7 +427,7 @@
         </div>
 
         <div class="shot">
-          <img src="/assets/triage-convo.png" alt="PawsCheck triage conversation" />
+          <img src="/assets/screen-triage-convo.png" alt="PawsCheck triage conversation" />
           <div class="shotCap">Triage</div>
         </div>
 
@@ -417,7 +475,8 @@
         </div>
 
         <div class="accessBtns">
-          <a class="cta ctaPrimary" href="mailto:support@pawscheckapp.com?subject=PawsCheck%20Early%20Access%20Beta&body=Hi%20PawsCheck%20team%2C%0A%0AI'd%20love%20early%20access%20to%20the%20beta.%0A%0APet%20type%3A%20(dog%2Fcat)%0ABreed%20(optional)%3A%20%0AWhat%20I%20want%20PawsCheck%20to%20help%20with%3A%20%0A%0AThanks!">
+          <a class="cta ctaPrimary"
+             href="mailto:support@pawscheckapp.com?subject=PawsCheck%20Early%20Access%20Beta&body=Hi%20PawsCheck%20team%2C%0A%0AI'd%20love%20early%20access%20to%20the%20beta.%0A%0APet%20type%3A%20(dog%2Fcat)%0ABreed%20(optional)%3A%20%0AWhat%20I%20want%20PawsCheck%20to%20help%20with%3A%20%0A%0AThanks!">
             Email for Beta Invite
           </a>
           <a class="cta ctaGhost" href="/support/">Support</a>
@@ -438,5 +497,15 @@
     </footer>
 
   </div>
+
+  <script>
+    const btn = document.getElementById('menuBtn');
+    const nav = document.getElementById('navlinks');
+
+    btn?.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(isOpen));
+    });
+  </script>
 </body>
 </html>
