@@ -7,7 +7,6 @@
   <meta name="description" content="Pet wellness + symptom triage in seconds. Answer a few questions and get a clear next step: monitor at home, see a vet soon, or urgent care." />
   <meta name="theme-color" content="#18b6ac" />
 
-  <!-- Social preview (optional, safe defaults) -->
   <meta property="og:title" content="PawsCheck — Don’t Guess. Just Check." />
   <meta property="og:description" content="Pet wellness + symptom triage in seconds. Clear next steps: monitor at home, vet soon, or urgent care." />
   <meta property="og:type" content="website" />
@@ -15,22 +14,17 @@
 
   <style>
     :root{
-      --bg: #f7fbfb;
-      --ink: #0f172a;
-      --muted: #475569;
-      --card: rgba(255,255,255,.82);
-      --line: rgba(15,23,42,.08);
-
-      --brand: #18b6ac;   /* teal */
-      --brand2:#ff6b6b;   /* coral */
-      --good: #16a34a;
-      --warn: #ef4444;
-
-      --shadow: 0 24px 60px rgba(2, 6, 23, .12);
-      --shadow2: 0 18px 40px rgba(2, 6, 23, .10);
-      --radius: 22px;
+      --bg:#f7fbfb;
+      --ink:#0f172a;
+      --muted:#475569;
+      --card:rgba(255,255,255,.86);
+      --line:rgba(15,23,42,.08);
+      --brand:#18b6ac;
+      --brand2:#ff6b6b;
+      --shadow:0 24px 60px rgba(2,6,23,.12);
+      --shadow2:0 18px 40px rgba(2,6,23,.10);
+      --radius:22px;
     }
-
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -43,344 +37,222 @@
       overflow-x:hidden;
     }
     a{color:inherit; text-decoration:none}
-    .wrap{max-width:1120px; margin:0 auto; padding:28px 18px 80px}
+    .wrap{max-width:1120px;margin:0 auto;padding:28px 18px 80px}
     .glass{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow2);
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow2);
       backdrop-filter: blur(10px);
     }
 
-    /* Top nav */
+    /* Top bar */
     .top{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
       padding:14px 16px;
-      position:sticky; top:10px;
-      z-index:10;
+      position:sticky;top:10px;z-index:10;
     }
+
+    /* ✅ BIGGER BRAND AREA */
     .brand{
-      display:flex; align-items:center; gap:12px;
-      min-width:220px;
+      display:flex;align-items:center;gap:12px;
+      min-width: 320px;         /* was small; gives it room */
     }
-    .brand img{height:26px; width:auto; display:block}
-    .brandFallback{
-      font-weight:900; letter-spacing:-.02em;
-      font-size:18px;
+    .brandMark{
+      display:flex;align-items:center;justify-content:center;
+      width:54px;height:54px;   /* makes the logo feel “logo-y” */
+      border-radius:16px;
+      background:rgba(24,182,172,.10);
+      border:1px solid rgba(24,182,172,.18);
+      box-shadow:0 10px 22px rgba(24,182,172,.14);
+      flex:0 0 auto;
     }
+    .brandMark img{
+      width:38px;height:38px;   /* icon within the badge */
+      object-fit:contain;
+      display:block;
+    }
+
+    /* If you have a wordmark image (logo-text.png), we’ll show it.
+       If not, it will fall back to a text wordmark. */
+    .wordmarkWrap{display:flex;flex-direction:column;gap:2px}
+    .wordmarkImg{
+      height:22px; width:auto; display:block;
+    }
+    .wordmarkText{
+      font-weight:1000;
+      letter-spacing:-.03em;
+      font-size:20px;
+      line-height:1.05;
+    }
+    .tagline{
+      font-size:12px;
+      font-weight:800;
+      color:rgba(15,23,42,.62);
+      line-height:1.2;
+    }
+
     .pill{
-      font-size:12px; font-weight:800;
-      padding:6px 10px;
-      border-radius:999px;
+      font-size:12px;font-weight:900;
+      padding:6px 10px;border-radius:999px;
       border:1px solid rgba(24,182,172,.25);
-      background: rgba(24,182,172,.10);
-      color: #0a6b66;
+      background:rgba(24,182,172,.10);
+      color:#0a6b66;
       white-space:nowrap;
+      margin-left:8px;
+      align-self:flex-start;
     }
-    .navlinks{
-      display:flex; align-items:center; gap:14px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+
+    .navlinks{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
     .navlinks a{
-      font-size:14px; font-weight:700;
-      color: rgba(15,23,42,.78);
-      padding:8px 10px;
-      border-radius:12px;
+      font-size:14px;font-weight:900;color:rgba(15,23,42,.78);
+      padding:8px 10px;border-radius:12px;
     }
     .navlinks a:hover{background:rgba(15,23,42,.05)}
     .cta{
-      display:inline-flex; align-items:center; justify-content:center;
-      gap:10px;
-      padding:10px 14px;
-      border-radius:14px;
-      font-weight:900;
-      border:1px solid transparent;
-      cursor:pointer;
-      user-select:none;
-      white-space:nowrap;
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:10px 14px;border-radius:14px;font-weight:950;
+      border:1px solid transparent;cursor:pointer;user-select:none;white-space:nowrap;
     }
     .ctaPrimary{
-      background: linear-gradient(135deg, var(--brand), #33d2c8);
+      background:linear-gradient(135deg,var(--brand),#33d2c8);
       color:white;
-      box-shadow: 0 14px 28px rgba(24,182,172,.22);
+      box-shadow:0 14px 28px rgba(24,182,172,.22);
     }
     .ctaPrimary:hover{filter:brightness(1.02)}
     .ctaGhost{
-      background: rgba(15,23,42,.04);
-      border-color: rgba(15,23,42,.08);
-      color: rgba(15,23,42,.85);
+      background:rgba(15,23,42,.04);
+      border-color:rgba(15,23,42,.08);
+      color:rgba(15,23,42,.85);
     }
-    .ctaGhost:hover{background: rgba(15,23,42,.06)}
+    .ctaGhost:hover{background:rgba(15,23,42,.06)}
 
     /* Hero */
-    .hero{
-      margin-top:18px;
-      padding:22px;
-    }
-    .heroGrid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:18px;
-      align-items:stretch;
-    }
+    .hero{margin-top:18px;padding:22px}
+    .heroGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}
     .kicker{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:6px 10px;
-      border-radius:999px;
-      font-weight:900;
-      font-size:13px;
-      background: rgba(255,107,107,.10);
-      border: 1px solid rgba(255,107,107,.18);
+      display:inline-flex;align-items:center;gap:10px;
+      padding:6px 10px;border-radius:999px;
+      font-weight:950;font-size:13px;
+      background:rgba(255,107,107,.10);
+      border:1px solid rgba(255,107,107,.18);
       color:#7a1f1f;
     }
-    h1{
-      margin:12px 0 10px;
-      font-size:54px;
-      line-height:1.02;
-      letter-spacing:-.04em;
-    }
+    h1{margin:12px 0 10px;font-size:54px;line-height:1.02;letter-spacing:-.04em}
     .sub{
-      margin:0;
-      font-size:18px;
-      color: rgba(15,23,42,.72);
-      line-height:1.55;
-      max-width:52ch;
-      font-weight:650;
+      margin:0;font-size:18px;color:rgba(15,23,42,.72);
+      line-height:1.55;max-width:58ch;font-weight:700;
     }
-    .heroActions{
-      display:flex; flex-wrap:wrap; gap:10px;
-      margin-top:16px;
-      align-items:center;
-    }
-    .miniRow{
-      display:flex; flex-wrap:wrap; gap:8px;
-      margin-top:14px;
-    }
+    .heroActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;align-items:center}
+    .miniRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
     .mini{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 10px;border-radius:999px;
       border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.6);
-      font-size:13px;
-      font-weight:800;
-      color: rgba(15,23,42,.72);
+      background:rgba(255,255,255,.6);
+      font-size:13px;font-weight:900;color:rgba(15,23,42,.72);
     }
     .dot{
-      width:10px; height:10px; border-radius:50%;
-      background: rgba(24,182,172,1);
-      box-shadow: 0 0 0 4px rgba(24,182,172,.12);
+      width:10px;height:10px;border-radius:50%;
+      background:rgba(24,182,172,1);
+      box-shadow:0 0 0 4px rgba(24,182,172,.12);
     }
     .note{
-      margin-top:14px;
-      font-size:12.5px;
-      color: rgba(15,23,42,.62);
-      line-height:1.45;
-      font-weight:650;
+      margin-top:14px;font-size:12.5px;color:rgba(15,23,42,.62);
+      line-height:1.45;font-weight:700;
     }
 
     /* Right card */
-    .rightCard{
-      padding:0;
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-    }
-    .rightTop{
-      background: linear-gradient(135deg, rgba(24,182,172,.18), rgba(255,107,107,.14));
-      padding:14px;
-    }
+    .rightCard{padding:0;overflow:hidden;display:flex;flex-direction:column}
+    .rightTop{background:linear-gradient(135deg,rgba(24,182,172,.18),rgba(255,107,107,.14));padding:14px}
     .banner{
-      width:100%;
-      height:auto;
-      display:block;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(2,6,23,.14);
-      border: 1px solid rgba(15,23,42,.08);
+      width:100%;height:auto;display:block;border-radius:16px;
+      box-shadow:0 10px 30px rgba(2,6,23,.14);
+      border:1px solid rgba(15,23,42,.08);
     }
-    .rightBody{
-      padding:16px 18px 18px;
-    }
-    .rightTitle{
-      margin:0 0 8px;
-      font-weight:950;
-      letter-spacing:-.02em;
-      font-size:16px;
-    }
-    .bullets{
-      margin:0; padding-left:18px;
-      color: rgba(15,23,42,.72);
-      font-weight:650;
-      line-height:1.6;
-      font-size:14px;
-    }
+    .rightBody{padding:16px 18px 18px}
+    .rightTitle{margin:0 0 8px;font-weight:950;letter-spacing:-.02em;font-size:16px}
+    .bullets{margin:0;padding-left:18px;color:rgba(15,23,42,.72);font-weight:700;line-height:1.6;font-size:14px}
 
     /* Sections */
-    section{
-      margin-top:22px;
-      padding:22px;
-    }
-    .secHead{
-      display:flex; flex-direction:column; gap:6px;
-      margin-bottom:14px;
-    }
-    .secHead h2{
-      margin:0;
-      font-size:28px;
-      letter-spacing:-.03em;
-    }
-    .secHead p{
-      margin:0;
-      color: rgba(15,23,42,.68);
-      font-weight:650;
-      line-height:1.55;
-      max-width:70ch;
-    }
+    section{margin-top:22px;padding:22px}
+    .secHead{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+    .secHead h2{margin:0;font-size:28px;letter-spacing:-.03em}
+    .secHead p{margin:0;color:rgba(15,23,42,.68);font-weight:700;line-height:1.55;max-width:72ch}
 
-    .steps{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:12px;
-    }
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
     .step{
-      padding:14px;
-      border-radius:18px;
+      padding:14px;border-radius:18px;
       border:1px solid rgba(15,23,42,.08);
-      background: rgba(255,255,255,.7);
+      background:rgba(255,255,255,.7);
     }
-    .step strong{
-      display:block;
-      font-weight:950;
-      margin-bottom:6px;
-      letter-spacing:-.01em;
-    }
-    .step span{
-      display:block;
-      color: rgba(15,23,42,.70);
-      font-weight:650;
-      line-height:1.5;
-      font-size:14px;
-    }
+    .step strong{display:block;font-weight:950;margin-bottom:6px;letter-spacing:-.01em}
+    .step span{display:block;color:rgba(15,23,42,.70);font-weight:700;line-height:1.5;font-size:14px}
 
     /* Preview cards */
-    .previewGrid{
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:12px;
-    }
+    .previewGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
     .shot{
-      padding:12px;
-      border-radius:18px;
+      padding:12px;border-radius:18px;
       border:1px solid rgba(15,23,42,.08);
-      background: rgba(255,255,255,.7);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      min-height: 340px;
+      background:rgba(255,255,255,.7);
+      display:flex;flex-direction:column;gap:10px;
     }
     .shot img{
       width:100%;
-      height:auto;
+      height: 460px;
+      object-fit: contain;
       display:block;
       border-radius:16px;
       border:1px solid rgba(15,23,42,.08);
-      box-shadow: 0 12px 30px rgba(2,6,23,.10);
+      box-shadow:0 12px 30px rgba(2,6,23,.10);
       background:white;
     }
-    .shotCap{
-      font-weight:900;
-      letter-spacing:-.01em;
-      color: rgba(15,23,42,.78);
-      font-size:14px;
-    }
+    .shotCap{font-weight:950;letter-spacing:-.01em;color:rgba(15,23,42,.78);font-size:14px}
 
     /* FAQ */
-    .faqGrid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:12px;
-    }
+    .faqGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
     .faq{
-      padding:14px;
-      border-radius:18px;
+      padding:14px;border-radius:18px;
       border:1px solid rgba(15,23,42,.08);
-      background: rgba(255,255,255,.7);
+      background:rgba(255,255,255,.7);
     }
-    .faq h3{
-      margin:0 0 6px;
-      font-size:15px;
-      font-weight:950;
-      letter-spacing:-.01em;
-    }
-    .faq p{
-      margin:0;
-      color: rgba(15,23,42,.70);
-      font-weight:650;
-      line-height:1.55;
-      font-size:14px;
-    }
+    .faq h3{margin:0 0 6px;font-size:15px;font-weight:950;letter-spacing:-.01em}
+    .faq p{margin:0;color:rgba(15,23,42,.70);font-weight:700;line-height:1.55;font-size:14px}
 
     /* Early access box */
-    .access{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .accessLeft{
-      display:flex; flex-direction:column; gap:6px;
-      max-width:70ch;
-    }
-    .accessLeft .big{
-      margin:0;
-      font-size:18px;
-      font-weight:950;
-      letter-spacing:-.02em;
-    }
-    .accessLeft .small{
-      margin:0;
-      color: rgba(15,23,42,.68);
-      font-weight:650;
-      line-height:1.5;
-    }
-    .accessBtns{display:flex; gap:10px; flex-wrap:wrap}
+    .access{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .accessLeft{display:flex;flex-direction:column;gap:6px;max-width:72ch}
+    .accessLeft .big{margin:0;font-size:18px;font-weight:950;letter-spacing:-.02em}
+    .accessLeft .small{margin:0;color:rgba(15,23,42,.68);font-weight:700;line-height:1.5}
+    .accessBtns{display:flex;gap:10px;flex-wrap:wrap}
 
     /* Footer */
-    footer{
-      margin-top:18px;
-      padding:16px 4px 0;
-      color: rgba(15,23,42,.60);
-      font-weight:650;
-      font-size:13px;
-      line-height:1.45;
-    }
-    .footLinks{
-      display:flex; gap:12px; flex-wrap:wrap;
-      margin-top:10px;
-    }
-    .footLinks a{
-      color: rgba(15,23,42,.65);
-      font-weight:800;
-    }
+    footer{margin-top:18px;padding:16px 4px 0;color:rgba(15,23,42,.60);font-weight:700;font-size:13px;line-height:1.45}
+    .footLinks{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .footLinks a{color:rgba(15,23,42,.65);font-weight:900}
     .footLinks a:hover{text-decoration:underline}
 
     /* Responsive */
     @media (max-width: 980px){
-      .heroGrid{grid-template-columns: 1fr}
+      .heroGrid{grid-template-columns:1fr}
       h1{font-size:46px}
-      .steps{grid-template-columns: 1fr}
-      .previewGrid{grid-template-columns: 1fr 1fr}
-      .faqGrid{grid-template-columns: 1fr}
+      .steps{grid-template-columns:1fr}
+      .previewGrid{grid-template-columns:1fr 1fr}
+      .faqGrid{grid-template-columns:1fr}
+      .brand{min-width:auto}
+    }
+    @media (max-width: 640px){
+      .top{position:static}
+      .navlinks{justify-content:flex-start}
+      .brandMark{width:48px;height:48px}
+      .brandMark img{width:34px;height:34px}
     }
     @media (max-width: 520px){
       h1{font-size:40px}
-      .previewGrid{grid-template-columns: 1fr}
-      .top{position:static}
-      .brand{min-width:auto}
-      .navlinks{justify-content:flex-start}
+      .previewGrid{grid-template-columns:1fr}
+      .shot img{height: 520px}
+      .wordmarkText{font-size:18px}
+      .tagline{display:none}
     }
   </style>
 </head>
@@ -388,12 +260,21 @@
 <body>
   <div class="wrap">
 
-    <!-- Top bar -->
     <div class="top glass">
+      <!-- ✅ Updated brand block -->
       <div class="brand">
-        <!-- If the image ever fails, the text fallback still looks good -->
-        <img src="/assets/logo.png" alt="PawsCheck" onerror="this.style.display='none'; document.getElementById('brandFallback').style.display='block';" />
-        <div id="brandFallback" class="brandFallback" style="display:none;">PawsCheck</div>
+        <div class="brandMark">
+          <!-- Use your icon file here -->
+          <img src="/assets/logo.png" alt="PawsCheck logo icon" />
+        </div>
+
+        <div class="wordmarkWrap">
+          <!-- Optional wordmark image if you have it -->
+          <img class="wordmarkImg" src="/assets/logo-text.png" alt="PawsCheck" onerror="this.style.display='none'; document.getElementById('fallbackWordmark').style.display='block';" />
+          <div id="fallbackWordmark" class="wordmarkText" style="display:none;">PawsCheck</div>
+          <div class="tagline">Don’t Guess. Just Check.</div>
+        </div>
+
         <span class="pill">Early Access Beta</span>
       </div>
 
@@ -407,7 +288,6 @@
       </div>
     </div>
 
-    <!-- Hero -->
     <div class="hero glass">
       <div class="heroGrid">
 
@@ -454,13 +334,10 @@
       </div>
     </div>
 
-    <!-- How it works -->
     <section id="how" class="glass">
       <div class="secHead">
         <h2>How it works</h2>
-        <p>
-          Simple by design. PawsCheck asks quick follow-ups so you get a clear recommendation and what to watch for.
-        </p>
+        <p>Simple by design. PawsCheck asks quick follow-ups so you get a clear recommendation and what to watch for.</p>
       </div>
 
       <div class="steps">
@@ -479,7 +356,6 @@
       </div>
     </section>
 
-    <!-- Preview -->
     <section id="preview" class="glass">
       <div class="secHead">
         <h2>A quick look inside the app</h2>
@@ -509,7 +385,6 @@
       </div>
     </section>
 
-    <!-- FAQ -->
     <section id="faq" class="glass">
       <div class="secHead">
         <h2>FAQ</h2>
@@ -521,12 +396,10 @@
           <h3>Is this a replacement for a vet?</h3>
           <p>No. It’s a decision-support tool. In emergencies, seek care immediately.</p>
         </div>
-
         <div class="faq">
           <h3>Does it track me?</h3>
           <p>No tracking. PawsCheck is designed to be privacy-first.</p>
         </div>
-
         <div class="faq">
           <h3>When is the launch?</h3>
           <p>We’re finishing the build and running a tester phase now. Beta invites go out first.</p>
@@ -534,7 +407,6 @@
       </div>
     </section>
 
-    <!-- Early access -->
     <section id="get-access" class="glass">
       <div class="access">
         <div class="accessLeft">
