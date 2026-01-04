@@ -3,521 +3,568 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-
   <title>PawsCheck — Don’t Guess. Just Check.</title>
-  <meta name="description" content="PawsCheck helps pet parents decide what to do next: monitor at home, see a vet soon, or get urgent care. Get early access." />
+  <meta name="description" content="Pet wellness + symptom triage in seconds. Answer a few questions and get a clear next step: monitor at home, see a vet soon, or urgent care." />
+  <meta name="theme-color" content="#18b6ac" />
+
+  <!-- Social preview (optional, safe defaults) -->
+  <meta property="og:title" content="PawsCheck — Don’t Guess. Just Check." />
+  <meta property="og:description" content="Pet wellness + symptom triage in seconds. Clear next steps: monitor at home, vet soon, or urgent care." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/assets/banner.png" />
 
   <style>
     :root{
-      --ink:#0b1220;
-      --muted:#5b6b83;
-      --bg:#f6fbfb;
-      --card:rgba(255,255,255,.85);
-      --line:rgba(15,23,42,.10);
-      --brand:#0f766e;        /* teal */
-      --brand2:#53c7bd;       /* lighter teal */
-      --accent:#ff6b6b;       /* coral */
-      --shadow: 0 18px 50px rgba(2,12,18,.12);
-      --shadow2: 0 10px 24px rgba(2,12,18,.10);
+      --bg: #f7fbfb;
+      --ink: #0f172a;
+      --muted: #475569;
+      --card: rgba(255,255,255,.82);
+      --line: rgba(15,23,42,.08);
+
+      --brand: #18b6ac;   /* teal */
+      --brand2:#ff6b6b;   /* coral */
+      --good: #16a34a;
+      --warn: #ef4444;
+
+      --shadow: 0 24px 60px rgba(2, 6, 23, .12);
+      --shadow2: 0 18px 40px rgba(2, 6, 23, .10);
       --radius: 22px;
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--ink);
       background:
-        radial-gradient(1200px 600px at 15% -10%, rgba(83,199,189,.35), transparent 60%),
-        radial-gradient(900px 520px at 95% 0%, rgba(255,107,107,.22), transparent 55%),
-        radial-gradient(800px 520px at 30% 110%, rgba(15,118,110,.18), transparent 55%),
-        var(--bg);
-      line-height:1.55;
+        radial-gradient(900px 420px at 18% 0%, rgba(24,182,172,.20), transparent 60%),
+        radial-gradient(800px 420px at 86% 10%, rgba(255,107,107,.18), transparent 60%),
+        linear-gradient(#ffffff, var(--bg));
+      overflow-x:hidden;
     }
-
-    a{color:var(--brand); text-decoration:none}
-    a:hover{text-decoration:underline}
-
-    .wrap{max-width:1100px; margin:0 auto; padding:28px 18px 70px}
-
-    /* Top bar */
-    .top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding:10px 12px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.65);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(2,12,18,.06);
-      position: sticky;
-      top: 10px;
-      z-index: 5;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      font-weight:900;
-      letter-spacing:-.02em;
-    }
-    .brand img{height:28px; width:auto; display:block}
-    .links{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      align-items:center;
-      font-weight:800;
-      color:var(--muted);
-      font-size:14px;
-    }
-    .pill{
-      font-size:12px;
-      font-weight:900;
-      padding:6px 10px;
-      border-radius:999px;
-      background: rgba(83,199,189,.16);
-      color: #0b3a36;
-      border: 1px solid rgba(83,199,189,.28);
-      white-space:nowrap;
-    }
-
-    /* Buttons */
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:12px 16px;
-      border-radius: 14px;
-      font-weight:900;
-      border: 1px solid transparent;
-      cursor:pointer;
-      user-select:none;
-      text-decoration:none !important;
-      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
-      white-space:nowrap;
-    }
-    .btn:active{transform: translateY(1px)}
-    .btnPrimary{
-      color:white;
-      background: linear-gradient(135deg, var(--brand), var(--brand2));
-      box-shadow: 0 14px 28px rgba(15,118,110,.22);
-    }
-    .btnPrimary:hover{box-shadow: 0 18px 40px rgba(15,118,110,.28)}
-    .btnGhost{
-      color:var(--ink);
-      background: rgba(255,255,255,.7);
-      border-color: var(--line);
-    }
-    .btnGhost:hover{box-shadow: 0 12px 24px rgba(2,12,18,.08)}
-
-    /* Hero */
-    .heroGrid{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 22px;
-      margin-top: 18px;
-      align-items: stretch;
-    }
-    @media (max-width: 980px){
-      .heroGrid{grid-template-columns: 1fr; }
-      .top{position:static}
-    }
-
-    .card{
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1120px; margin:0 auto; padding:28px 18px 80px}
+    .glass{
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow2);
-      overflow:hidden;
+      backdrop-filter: blur(10px);
     }
 
-    .heroLeft{
-      padding: 24px 22px;
-      position:relative;
+    /* Top nav */
+    .top{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      position:sticky; top:10px;
+      z-index:10;
     }
-    .heroLeft:before{
-      content:"";
-      position:absolute;
-      inset:-60px -60px auto auto;
-      width: 220px;
-      height: 220px;
-      background: radial-gradient(circle at 30% 30%, rgba(255,107,107,.35), rgba(255,107,107,0) 70%);
-      transform: rotate(12deg);
-      pointer-events:none;
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width:220px;
     }
+    .brand img{height:26px; width:auto; display:block}
+    .brandFallback{
+      font-weight:900; letter-spacing:-.02em;
+      font-size:18px;
+    }
+    .pill{
+      font-size:12px; font-weight:800;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(24,182,172,.25);
+      background: rgba(24,182,172,.10);
+      color: #0a6b66;
+      white-space:nowrap;
+    }
+    .navlinks{
+      display:flex; align-items:center; gap:14px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .navlinks a{
+      font-size:14px; font-weight:700;
+      color: rgba(15,23,42,.78);
+      padding:8px 10px;
+      border-radius:12px;
+    }
+    .navlinks a:hover{background:rgba(15,23,42,.05)}
+    .cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:14px;
+      font-weight:900;
+      border:1px solid transparent;
+      cursor:pointer;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .ctaPrimary{
+      background: linear-gradient(135deg, var(--brand), #33d2c8);
+      color:white;
+      box-shadow: 0 14px 28px rgba(24,182,172,.22);
+    }
+    .ctaPrimary:hover{filter:brightness(1.02)}
+    .ctaGhost{
+      background: rgba(15,23,42,.04);
+      border-color: rgba(15,23,42,.08);
+      color: rgba(15,23,42,.85);
+    }
+    .ctaGhost:hover{background: rgba(15,23,42,.06)}
 
+    /* Hero */
+    .hero{
+      margin-top:18px;
+      padding:22px;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:900;
+      font-size:13px;
+      background: rgba(255,107,107,.10);
+      border: 1px solid rgba(255,107,107,.18);
+      color:#7a1f1f;
+    }
     h1{
-      margin: 8px 0 10px;
-      font-size: 52px;
-      line-height: 1.05;
-      letter-spacing:-.03em;
+      margin:12px 0 10px;
+      font-size:54px;
+      line-height:1.02;
+      letter-spacing:-.04em;
     }
-    @media (max-width: 520px){
-      h1{font-size: 40px}
-    }
-
     .sub{
       margin:0;
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 18px;
-      max-width: 62ch;
+      font-size:18px;
+      color: rgba(15,23,42,.72);
+      line-height:1.55;
+      max-width:52ch;
+      font-weight:650;
     }
-
-    .ctaRow{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top: 18px;
+    .heroActions{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin-top:16px;
       align-items:center;
     }
-
-    .trustRow{
-      display:flex;
-      gap: 10px;
-      flex-wrap:wrap;
-      margin-top: 16px;
+    .miniRow{
+      display:flex; flex-wrap:wrap; gap:8px;
+      margin-top:14px;
     }
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 9px 10px;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.7);
-      font-weight:900;
-      color:#153047;
-      font-size: 13px;
+    .mini{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(255,255,255,.6);
+      font-size:13px;
+      font-weight:800;
+      color: rgba(15,23,42,.72);
     }
     .dot{
-      width:10px;height:10px;border-radius:999px;
-      background: linear-gradient(135deg, var(--brand), var(--brand2));
-      box-shadow: 0 0 0 4px rgba(83,199,189,.15);
+      width:10px; height:10px; border-radius:50%;
+      background: rgba(24,182,172,1);
+      box-shadow: 0 0 0 4px rgba(24,182,172,.12);
+    }
+    .note{
+      margin-top:14px;
+      font-size:12.5px;
+      color: rgba(15,23,42,.62);
+      line-height:1.45;
+      font-weight:650;
     }
 
-    .heroRight{
+    /* Right card */
+    .rightCard{
+      padding:0;
+      overflow:hidden;
       display:flex;
       flex-direction:column;
-      gap: 12px;
-      padding: 0;
+    }
+    .rightTop{
+      background: linear-gradient(135deg, rgba(24,182,172,.18), rgba(255,107,107,.14));
+      padding:14px;
     }
     .banner{
       width:100%;
+      height:auto;
       display:block;
-      border-bottom: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(2,6,23,.14);
+      border: 1px solid rgba(15,23,42,.08);
     }
-    .mini{
-      padding: 16px 16px 14px;
+    .rightBody{
+      padding:16px 18px 18px;
     }
-    .miniTitle{
-      font-weight: 950;
+    .rightTitle{
+      margin:0 0 8px;
+      font-weight:950;
       letter-spacing:-.02em;
-      margin:0 0 6px;
-      font-size: 16px;
+      font-size:16px;
     }
-    .miniText{
-      margin:0;
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 14px;
+    .bullets{
+      margin:0; padding-left:18px;
+      color: rgba(15,23,42,.72);
+      font-weight:650;
+      line-height:1.6;
+      font-size:14px;
     }
 
     /* Sections */
-    .section{
-      margin-top: 26px;
-      padding: 20px;
+    section{
+      margin-top:22px;
+      padding:22px;
     }
-    .sectionTitle{
-      margin:0 0 10px;
-      font-size: 28px;
-      letter-spacing:-.02em;
+    .secHead{
+      display:flex; flex-direction:column; gap:6px;
+      margin-bottom:14px;
+    }
+    .secHead h2{
+      margin:0;
+      font-size:28px;
+      letter-spacing:-.03em;
+    }
+    .secHead p{
+      margin:0;
+      color: rgba(15,23,42,.68);
+      font-weight:650;
+      line-height:1.55;
+      max-width:70ch;
     }
 
-    .grid3{
+    .steps{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 14px;
+      gap:12px;
     }
-    @media (max-width: 900px){
-      .grid3{grid-template-columns: 1fr;}
+    .step{
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(15,23,42,.08);
+      background: rgba(255,255,255,.7);
     }
-
-    .feature{
-      padding: 16px;
-      border-radius: 18px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.75);
-      box-shadow: 0 10px 24px rgba(2,12,18,.06);
-    }
-    .feature h3{
-      margin:0 0 6px;
-      font-size: 16px;
+    .step strong{
+      display:block;
+      font-weight:950;
+      margin-bottom:6px;
       letter-spacing:-.01em;
     }
-    .feature p{
-      margin:0;
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 14px;
+    .step span{
+      display:block;
+      color: rgba(15,23,42,.70);
+      font-weight:650;
+      line-height:1.5;
+      font-size:14px;
     }
 
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-weight: 950;
-      font-size: 12px;
-      color:#0b3a36;
-      background: rgba(83,199,189,.16);
-      border:1px solid rgba(83,199,189,.28);
-      padding: 6px 10px;
-      border-radius: 999px;
-      margin-bottom: 10px;
-    }
-    .badge .spark{
-      width:10px;height:10px;border-radius:999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(255,107,107,.15);
-    }
-
-    /* Screenshots */
-    .shots{
+    /* Preview cards */
+    .previewGrid{
       display:grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-top: 14px;
-    }
-    @media (max-width: 1024px){
-      .shots{grid-template-columns: repeat(2, 1fr);}
-    }
-    @media (max-width: 520px){
-      .shots{grid-template-columns: 1fr;}
+      gap:12px;
     }
     .shot{
-      border-radius: 22px;
-      overflow:hidden;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.95);
-      box-shadow: var(--shadow2);
-      transition: transform .12s ease, box-shadow .12s ease;
+      padding:12px;
+      border-radius:18px;
+      border:1px solid rgba(15,23,42,.08);
+      background: rgba(255,255,255,.7);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height: 340px;
     }
-    .shot:hover{
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
+    .shot img{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius:16px;
+      border:1px solid rgba(15,23,42,.08);
+      box-shadow: 0 12px 30px rgba(2,6,23,.10);
+      background:white;
     }
-    .shot img{width:100%; height:auto; display:block}
     .shotCap{
-      padding: 10px 12px;
-      font-size: 13px;
-      color:#475569;
-      font-weight: 900;
-      border-top: 1px solid var(--line);
-      background: rgba(255,255,255,.92);
+      font-weight:900;
+      letter-spacing:-.01em;
+      color: rgba(15,23,42,.78);
+      font-size:14px;
     }
 
-    /* Early access form */
-    .formRow{
+    /* FAQ */
+    .faqGrid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    .faq{
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(15,23,42,.08);
+      background: rgba(255,255,255,.7);
+    }
+    .faq h3{
+      margin:0 0 6px;
+      font-size:15px;
+      font-weight:950;
+      letter-spacing:-.01em;
+    }
+    .faq p{
+      margin:0;
+      color: rgba(15,23,42,.70);
+      font-weight:650;
+      line-height:1.55;
+      font-size:14px;
+    }
+
+    /* Early access box */
+    .access{
       display:flex;
-      gap: 10px;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
       flex-wrap:wrap;
-      margin-top: 12px;
     }
-    input[type="email"]{
-      flex: 1 1 260px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.8);
-      font-weight: 800;
-      outline:none;
+    .accessLeft{
+      display:flex; flex-direction:column; gap:6px;
+      max-width:70ch;
     }
-    input[type="email"]:focus{
-      border-color: rgba(15,118,110,.45);
-      box-shadow: 0 0 0 4px rgba(83,199,189,.18);
+    .accessLeft .big{
+      margin:0;
+      font-size:18px;
+      font-weight:950;
+      letter-spacing:-.02em;
     }
+    .accessLeft .small{
+      margin:0;
+      color: rgba(15,23,42,.68);
+      font-weight:650;
+      line-height:1.5;
+    }
+    .accessBtns{display:flex; gap:10px; flex-wrap:wrap}
 
     /* Footer */
     footer{
-      margin-top: 28px;
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 13px;
-      display:flex;
-      gap: 10px;
-      flex-wrap:wrap;
-      justify-content:space-between;
-      align-items:center;
-      padding: 14px 6px 0;
+      margin-top:18px;
+      padding:16px 4px 0;
+      color: rgba(15,23,42,.60);
+      font-weight:650;
+      font-size:13px;
+      line-height:1.45;
     }
-    .footLinks{display:flex; gap:14px; flex-wrap:wrap}
+    .footLinks{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .footLinks a{
+      color: rgba(15,23,42,.65);
+      font-weight:800;
+    }
+    .footLinks a:hover{text-decoration:underline}
 
-    /* Small helper */
-    .tiny{font-size:12px; color: var(--muted); font-weight:800; margin-top:10px}
+    /* Responsive */
+    @media (max-width: 980px){
+      .heroGrid{grid-template-columns: 1fr}
+      h1{font-size:46px}
+      .steps{grid-template-columns: 1fr}
+      .previewGrid{grid-template-columns: 1fr 1fr}
+      .faqGrid{grid-template-columns: 1fr}
+    }
+    @media (max-width: 520px){
+      h1{font-size:40px}
+      .previewGrid{grid-template-columns: 1fr}
+      .top{position:static}
+      .brand{min-width:auto}
+      .navlinks{justify-content:flex-start}
+    }
   </style>
 </head>
 
 <body>
   <div class="wrap">
 
-    <div class="top">
+    <!-- Top bar -->
+    <div class="top glass">
       <div class="brand">
-        <img src="/assets/logo-text.png" alt="PawsCheck" />
+        <!-- If the image ever fails, the text fallback still looks good -->
+        <img src="/assets/logo.png" alt="PawsCheck" onerror="this.style.display='none'; document.getElementById('brandFallback').style.display='block';" />
+        <div id="brandFallback" class="brandFallback" style="display:none;">PawsCheck</div>
         <span class="pill">Early Access Beta</span>
       </div>
-      <div class="links">
+
+      <div class="navlinks">
         <a href="#how">How it works</a>
         <a href="#preview">Preview</a>
         <a href="#faq">FAQ</a>
-        <a class="btn btnGhost" href="#early">Get Early Access</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/support/">Support</a>
+        <a class="cta ctaPrimary" href="#get-access">Get Early Access</a>
       </div>
     </div>
 
-    <div class="heroGrid">
-      <div class="card heroLeft">
-        <div class="badge"><span class="spark"></span> Pet wellness + symptom triage, in seconds</div>
-        <h1>Don’t Guess.<br/>Just Check.</h1>
-        <p class="sub">
-          PawsCheck helps you decide what to do next: <b>monitor at home</b>, <b>see a vet soon</b>,
-          or <b>get urgent care</b>—with calm, step-by-step guidance tailored to your pet.
-        </p>
+    <!-- Hero -->
+    <div class="hero glass">
+      <div class="heroGrid">
 
-        <div class="ctaRow">
-          <a class="btn btnPrimary" href="#early">Get Early Access</a>
-          <a class="btn btnGhost" href="#preview">See app screenshots</a>
-        </div>
-
-        <div class="trustRow">
-          <div class="chip"><span class="dot"></span> No account required (v1)</div>
-          <div class="chip"><span class="dot"></span> No tracking</div>
-          <div class="chip"><span class="dot"></span> Built for clarity under stress</div>
-        </div>
-
-        <div class="tiny">
-          Important: PawsCheck is informational and not a substitute for professional veterinary care.
-          In emergencies, contact a veterinarian immediately.
-        </div>
-      </div>
-
-      <div class="card heroRight">
-        <img class="banner" src="/assets/banner.png" alt="PawsCheck banner" />
-        <div class="mini">
-          <p class="miniTitle">What you’ll get in the beta</p>
-          <p class="miniText">
-            • Symptom triage chat<br/>
-            • “Find Emergency Vet” shortcut<br/>
-            • Daily wellness tips (diet, exercise, prevention)<br/>
-            • Copyable vet summary for visits
+        <div>
+          <div class="kicker">🐾 Pet wellness + symptom triage in seconds</div>
+          <h1>Don’t Guess.<br>Just Check.</h1>
+          <p class="sub">
+            Answer a few quick questions and get a clear next step:
+            <strong>monitor at home</strong>, <strong>see a vet soon</strong>, or <strong>urgent care</strong>.
           </p>
+
+          <div class="heroActions">
+            <a class="cta ctaPrimary" href="#get-access">Get Early Access</a>
+            <a class="cta ctaGhost" href="#preview">See app screenshots</a>
+          </div>
+
+          <div class="miniRow">
+            <div class="mini"><span class="dot"></span> No account required (v1)</div>
+            <div class="mini"><span class="dot"></span> Privacy-first (no tracking)</div>
+            <div class="mini"><span class="dot"></span> Built for clarity under stress</div>
+          </div>
+
+          <div class="note">
+            Important: PawsCheck is informational and not a substitute for professional veterinary care.
+            If you believe your pet is having an emergency, seek care immediately.
+          </div>
         </div>
+
+        <div class="rightCard glass">
+          <div class="rightTop">
+            <img class="banner" src="/assets/banner.png" alt="PawsCheck banner" />
+          </div>
+          <div class="rightBody">
+            <p class="rightTitle">What you’ll get in the beta</p>
+            <ul class="bullets">
+              <li>Clear next step (home care vs vet vs urgent)</li>
+              <li>“Find Emergency Vet” shortcut when it’s serious</li>
+              <li>Daily wellness tips tailored to your pet</li>
+              <li>Copy a simple summary for your vet visit</li>
+            </ul>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <div class="card section" id="how">
-      <h2 class="sectionTitle">How it works</h2>
-      <p class="sub" style="margin:0;max-width:75ch">
-        Answer a few quick questions about what you’re seeing. PawsCheck helps you understand urgency and next steps,
-        then gives practical “what to do now” guidance.
-      </p>
-
-      <div class="grid3">
-        <div class="feature">
-          <h3>1) Describe symptoms</h3>
-          <p>Tell us what’s going on. Add context like energy level, appetite, and timing.</p>
-        </div>
-        <div class="feature">
-          <h3>2) Get a next-step recommendation</h3>
-          <p>Monitor at home vs vet soon vs urgent care—presented clearly with what to watch for.</p>
-        </div>
-        <div class="feature">
-          <h3>3) Take action with confidence</h3>
-          <p>Use the “Find Emergency Vet” button and copy a vet summary for your appointment.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="card section" id="preview">
-      <h2 class="sectionTitle">A quick look inside the app</h2>
-      <p class="sub" style="margin:0 0 14px;max-width:75ch">
-        Designed to feel calm and intuitive—so you can think clearly when you’re worried.
-      </p>
-
-      <div class="shots">
-        <div class="shot">
-          <img src="/assets/screen-home.png" alt="PawsCheck home screen" />
-          <div class="shotCap">Home: start triage or daily wellness</div>
-        </div>
-        <div class="shot">
-          <img src="/assets/screen-triage-convo.png" alt="PawsCheck triage conversation screen" />
-          <div class="shotCap">Triage chat: quick questions</div>
-        </div>
-        <div class="shot">
-          <img src="/assets/screen-triage-result.png" alt="PawsCheck triage results screen" />
-          <div class="shotCap">Results: clear next steps</div>
-        </div>
-        <div class="shot">
-          <img src="/assets/screen-dailywellness.png" alt="PawsCheck daily wellness screen" />
-          <div class="shotCap">Daily wellness: prevention + care tips</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card section" id="early">
-      <h2 class="sectionTitle">Get early access</h2>
-      <p class="sub" style="margin:0;max-width:75ch">
-        Join the beta list. We’ll email you when testing invites go out.
-      </p>
-
-      <!-- Simple email link (no backend needed yet) -->
-      <div class="formRow">
-        <a class="btn btnPrimary" href="mailto:support@pawscheckapp.com?subject=PawsCheck%20Beta%20Access&body=Hi%20PawsCheck%20team!%0A%0APlease%20add%20me%20to%20the%20beta%20list.%0A%0AName%3A%20%0AEmail%3A%20%0ADevice%20(iPhone/Android)%3A%20%0A%0AThanks!">
-          Email to join beta
-        </a>
-        <a class="btn btnGhost" href="#faq">Questions?</a>
+    <!-- How it works -->
+    <section id="how" class="glass">
+      <div class="secHead">
+        <h2>How it works</h2>
+        <p>
+          Simple by design. PawsCheck asks quick follow-ups so you get a clear recommendation and what to watch for.
+        </p>
       </div>
 
-      <div class="tiny">
-        Prefer? Email us directly at <a href="mailto:support@pawscheckapp.com">support@pawscheckapp.com</a>.
+      <div class="steps">
+        <div class="step">
+          <strong>1) Describe symptoms</strong>
+          <span>Add context like energy level, appetite, and timing.</span>
+        </div>
+        <div class="step">
+          <strong>2) Get a clear next step</strong>
+          <span>Monitor at home vs vet soon vs urgent care—explained plainly.</span>
+        </div>
+        <div class="step">
+          <strong>3) Take action confidently</strong>
+          <span>Use “Find Emergency Vet” and copy a summary for your appointment.</span>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="card section" id="faq">
-      <h2 class="sectionTitle">FAQ</h2>
+    <!-- Preview -->
+    <section id="preview" class="glass">
+      <div class="secHead">
+        <h2>A quick look inside the app</h2>
+        <p>Designed to feel calm and intuitive—so you can think clearly when you’re worried.</p>
+      </div>
 
-      <div class="grid3">
-        <div class="feature">
+      <div class="previewGrid">
+        <div class="shot">
+          <img src="/assets/screen-home.png" alt="PawsCheck Home screen" />
+          <div class="shotCap">Home</div>
+        </div>
+
+        <div class="shot">
+          <img src="/assets/triage-convo.png" alt="PawsCheck triage conversation" />
+          <div class="shotCap">Triage</div>
+        </div>
+
+        <div class="shot">
+          <img src="/assets/screen-triage-result.png" alt="PawsCheck triage result" />
+          <div class="shotCap">Results</div>
+        </div>
+
+        <div class="shot">
+          <img src="/assets/screen-dailywellness.png" alt="PawsCheck daily wellness" />
+          <div class="shotCap">Wellness</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="glass">
+      <div class="secHead">
+        <h2>FAQ</h2>
+        <p>Quick answers. No fluff.</p>
+      </div>
+
+      <div class="faqGrid">
+        <div class="faq">
           <h3>Is this a replacement for a vet?</h3>
-          <p>No. It’s a decision-support tool to help you understand urgency and next steps. In emergencies, seek care immediately.</p>
+          <p>No. It’s a decision-support tool. In emergencies, seek care immediately.</p>
         </div>
-        <div class="feature">
+
+        <div class="faq">
           <h3>Does it track me?</h3>
-          <p>No tracking. The app is designed to be privacy-first.</p>
+          <p>No tracking. PawsCheck is designed to be privacy-first.</p>
         </div>
-        <div class="feature">
+
+        <div class="faq">
           <h3>When is the launch?</h3>
           <p>We’re finishing the build and running a tester phase now. Beta invites go out first.</p>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- Early access -->
+    <section id="get-access" class="glass">
+      <div class="access">
+        <div class="accessLeft">
+          <p class="big">Get Early Access</p>
+          <p class="small">
+            Want a beta invite? Email us and tell us your pet type (dog/cat), plus what you’d like PawsCheck to help with most.
+          </p>
+        </div>
+
+        <div class="accessBtns">
+          <a class="cta ctaPrimary" href="mailto:support@pawscheckapp.com?subject=PawsCheck%20Early%20Access%20Beta&body=Hi%20PawsCheck%20team%2C%0A%0AI'd%20love%20early%20access%20to%20the%20beta.%0A%0APet%20type%3A%20(dog%2Fcat)%0ABreed%20(optional)%3A%20%0AWhat%20I%20want%20PawsCheck%20to%20help%20with%3A%20%0A%0AThanks!">
+            Email for Beta Invite
+          </a>
+          <a class="cta ctaGhost" href="/support/">Support</a>
+        </div>
+      </div>
+    </section>
 
     <footer>
-      <div>© <span id="y"></span> PawsCheck</div>
+      <div>
+        PawsCheck is an informational tool and not a substitute for professional veterinary care.
+        If you believe your pet is experiencing an emergency, contact a veterinarian immediately.
+      </div>
       <div class="footLinks">
-        <a href="/support/">Support</a>
         <a href="/privacy/">Privacy Policy</a>
+        <a href="/support/">Support</a>
+        <a href="mailto:support@pawscheckapp.com">support@pawscheckapp.com</a>
       </div>
     </footer>
 
   </div>
-
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
