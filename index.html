@@ -1041,15 +1041,18 @@
             and practical pet wellness tips that help you feel more prepared.
           </p>
 
-          <div class="email-box">
-            <div class="email-placeholder">Email address</div>
-            <a class="button" href="mailto:support@pawscheckapp.com?subject=PawsCheck%20Early%20Access%20Request">
-              Join early access
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+          <form class="email-box" onsubmit="joinEarlyAccess(event)">
+  <input
+    id="earlyAccessEmail"
+    class="email-input"
+    type="email"
+    placeholder="Email address"
+    required
+  />
+  <button class="button" type="submit">
+    Join early access
+  </button>
+</form>
 
     <footer class="footer">
       <div class="container footer-inner">
