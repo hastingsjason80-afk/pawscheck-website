@@ -63,7 +63,9 @@
     }
 
     button,
-    input {
+    input,
+    select,
+    textarea {
       font-family: inherit;
     }
 
@@ -628,46 +630,77 @@
       color: rgba(255, 255, 255, 0.9);
     }
 
-    .email-box {
-      width: min(100%, 560px);
+    .waitlist-form {
+      width: min(100%, 720px);
       margin: 34px auto 0;
-      background: white;
-      border-radius: 999px;
-      padding: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 18px 40px rgba(8, 17, 31, 0.14);
-      border: 1px solid rgba(255, 255, 255, 0.65);
+      display: grid;
+      gap: 14px;
     }
 
-    .email-input {
-      flex: 1;
-      min-width: 0;
-      height: 54px;
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
       border: none;
       outline: none;
-      background: transparent;
-      padding: 0 22px;
+      border-radius: 18px;
+      background: white;
       color: var(--ink);
       font-size: 16px;
       font-weight: 700;
+      padding: 17px 18px;
+      box-shadow: 0 12px 28px rgba(8, 17, 31, 0.1);
     }
 
-    .email-input::placeholder {
+    .form-input::placeholder,
+    .form-textarea::placeholder {
       color: #7a858b;
     }
 
-    .email-box .button {
-      height: 54px;
-      white-space: nowrap;
-      box-shadow: none;
+    .form-textarea {
+      min-height: 118px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .form-consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      text-align: left;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 650;
+      max-width: 680px;
+      margin: 2px auto 0;
+    }
+
+    .form-consent input {
+      margin-top: 3px;
+      accent-color: var(--teal-dark);
+    }
+
+    .form-submit {
+      width: fit-content;
+      min-width: 220px;
+      margin: 4px auto 0;
+      background: var(--teal-dark);
+    }
+
+    .form-submit:hover {
+      background: #0F6664;
     }
 
     .form-note {
       margin: 16px auto 0;
       max-width: 560px;
-      color: rgba(255, 255, 255, 0.78);
+      color: rgba(255, 255, 255, 0.82);
       font-size: 13px;
       line-height: 1.5;
       font-weight: 600;
@@ -804,20 +837,15 @@
         grid-template-columns: 1fr;
       }
 
-      .email-box {
-        border-radius: 26px;
-        flex-direction: column;
-        padding: 12px;
+      .form-row {
+        grid-template-columns: 1fr;
       }
 
-      .email-input {
-        width: 100%;
-        text-align: center;
-        background: #f7fbfb;
-        border-radius: 18px;
+      .waitlist-form {
+        gap: 12px;
       }
 
-      .email-box .button {
+      .form-submit {
         width: 100%;
       }
 
@@ -1079,27 +1107,73 @@
       <div class="container">
         <div class="cta-panel">
           <p class="section-label">Coming soon</p>
-          <h2 class="section-title">Get early access when PawsCheck launches</h2>
+          <h2 class="section-title">Join the PawsCheck waitlist</h2>
           <p class="section-copy">
-            Join the launch list for early access updates, app release announcements,
-            and practical pet wellness tips that help you feel more prepared.
+            Tell us a little about you and your pet. We’ll send early access updates,
+            launch announcements, and practical pet wellness tips as we get closer to release.
           </p>
 
-          <form class="email-box" onsubmit="joinEarlyAccess(event)">
-            <input
-              id="earlyAccessEmail"
-              class="email-input"
-              type="email"
-              placeholder="Email address"
-              required
-            />
-            <button class="button" type="submit">
-              Join early access
+          <form
+            class="waitlist-form"
+            action="https://formspree.io/f/xlgaqgpv"
+            method="POST"
+          >
+            <div class="form-row">
+              <input
+                class="form-input"
+                type="text"
+                name="name"
+                placeholder="Your name"
+                required
+              />
+
+              <input
+                class="form-input"
+                type="email"
+                name="email"
+                placeholder="Email address"
+                required
+              />
+            </div>
+
+            <div class="form-row">
+              <select class="form-input" name="pet_type" required>
+                <option value="">Type of pet</option>
+                <option value="Dog">Dog</option>
+                <option value="Cat">Cat</option>
+                <option value="Dog and cat">Dog and cat</option>
+                <option value="Multiple pets">Multiple pets</option>
+                <option value="Other">Other</option>
+              </select>
+
+              <input
+                class="form-input"
+                type="text"
+                name="pet_name"
+                placeholder="Pet name"
+              />
+            </div>
+
+            <textarea
+              class="form-textarea"
+              name="reason"
+              placeholder="What would you use PawsCheck for? Example: tracking symptoms, knowing when to call the vet, storing pet notes..."
+            ></textarea>
+
+            <label class="form-consent">
+              <input type="checkbox" name="permission_to_contact" required />
+              <span>
+                I agree to receive PawsCheck launch updates and early access information.
+              </span>
+            </label>
+
+            <button class="button form-submit" type="submit">
+              Join the waitlist
             </button>
           </form>
 
           <p class="form-note">
-            Enter your email and we’ll open a pre-filled message to join the early access list.
+            We’ll only use your information for PawsCheck launch updates and early access.
           </p>
         </div>
       </div>
@@ -1123,22 +1197,5 @@
       </div>
     </footer>
   </main>
-
-  <script>
-    function joinEarlyAccess(event) {
-      event.preventDefault();
-
-      const email = document.getElementById("earlyAccessEmail").value.trim();
-
-      if (!email) return;
-
-      const subject = encodeURIComponent("PawsCheck Early Access Request");
-      const body = encodeURIComponent(
-        `Please add me to the PawsCheck early access list.\n\nEmail: ${email}`
-      );
-
-      window.location.href = `mailto:support@pawscheckapp.com?subject=${subject}&body=${body}`;
-    }
-  </script>
 </body>
 </html>
